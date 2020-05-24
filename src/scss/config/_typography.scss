@@ -1,0 +1,18 @@
+$base-font-size: 16px;
+$font-size-pixel:$base-font-size / 16;
+$base-line-height: 1.5;
+$font-xxl: $font-size-pixel * 180;
+$font-xl: $font-size-pixel * 80;
+$font-l: $font-size-pixel * 40;
+$font-m: $font-size-pixel * 32;
+$font-s: $font-size-pixel * 16;
+$font-xs: $font-size-pixel * 14;
+//$font-title: Helvetica Neue, Regular;
+//$font-Neue: Helvetica Neue, Regular;
+//$font-times: Times, Regular;
+body * {
+    font-size: $base-font-size;
+    line-height: $base-line-height;
+    letter-spacing: 1px;
+    font-family: Noto Sans TC, Fjalla One;
+}

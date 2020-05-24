@@ -1,0 +1,13 @@
+@mixin btnSize($size) {
+    width: $size;
+    height: $size;
+}
+
+.e-btn {
+    vertical-align: top;
+    display: inline-block;
+    border: 2px solid $gray;
+    border-radius: 50px;
+    cursor: pointer;
+    text-align: center;
+}

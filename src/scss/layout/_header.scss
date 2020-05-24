@@ -1,0 +1,12 @@
+.header {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.date {
+    margin: 28px 40px;
+    span {
+        color: rgba($white, .5);
+        margin-left: 24px;
+    }
+}

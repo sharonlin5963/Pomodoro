@@ -1,0 +1,229 @@
+.drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 50%;
+    display: flex;
+}
+
+.navbar {
+    background-color: $gray;
+    height: 100%;
+    div {
+        padding: 15px;
+    }
+    div:hover {
+        background-color: $white;
+        cursor: pointer;
+    }
+}
+
+.content {
+    z-index: -1;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: $darkGreen;
+    padding: 40px;
+    box-shadow: 10px 0 20px rgba(#000, .1);
+    right: 100%;
+    overflow: auto;
+    .title {
+        font-size: $font-l;
+        display: inline-block;
+        color: $gray;
+    }
+}
+
+//js
+.drawer.drawerOpen {
+    .content {
+        right: 0;
+    }
+}
+
+.nowNavbar {
+    background-color: $white;
+}
+
+//todoList
+.todoList {
+    p,
+    span {
+        font-size: $font-s;
+    }
+    p {
+        float: right;
+        text-align: center;
+        transform: translateY($font-l/2);
+        cursor: pointer;
+    }
+    p+p {
+        margin-right: 40px;
+    }
+    hr {
+        border: .8px solid rgba($white, .1);
+    }
+    .fade {
+        opacity: .5;
+    }
+}
+
+.addList {
+    position: relative;
+    background-color: $white;
+    border-radius: 50px;
+    overflow: hidden;
+    margin: 40px 0;
+    input {
+        width: 100%;
+        height: 56px;
+        font-size: $font-s;
+        padding: 15px 24px;
+        font-family: Noto Sans TC;
+        border: none;
+        letter-spacing: 1px;
+    }
+    .e-btn {
+        border: none;
+        width: 48px;
+        padding: 6px 0;
+        font-size: $font-s;
+        background-color: $orange;
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+    }
+}
+
+.listItem {
+    margin: 15px 0;
+    .e-btn {
+        @include btnSize(24px);
+        margin-right: 16px;
+    }
+    span,
+    .editBtn {
+        vertical-align: top;
+        display: inline-block;
+    }
+    .editBtn {
+        float: right;
+        margin-left: 12px;
+        cursor: pointer;
+    }
+    .e-timeLength {
+        margin-left: 45px;
+    }
+    .tick {
+        font-size: 13px;
+        display: none;
+    }
+}
+
+.listItem.done {
+    .tick {
+        display: block;
+    }
+    span {
+        opacity: .5;
+        text-decoration: line-through;
+    }
+    .editBtn {
+        display: none;
+    }
+}
+
+//analysis
+.data {
+    margin: 80px 0 40px;
+    position: relative;
+    display: inline-block;
+    border: solid 1.5px rgba($white, .1);
+    padding: 4% 5%;
+    border-radius: 5px;
+    width: 45%;
+    text-align: center;
+    p {
+        position: absolute;
+        left: 0;
+        top: -40px;
+        font-size: $font-s;
+        color: $gray;
+    }
+    p>span {
+        opacity: .5;
+        margin-left: 24px;
+    }
+    .num {
+        display: inline-block;
+        font-size: 70px;
+        color: $lightGreen;
+        font-family: Fjalla One;
+    }
+    .num+.num {
+        color: $orange;
+        border-left: 1.5px solid rgba($white, .1);
+        padding-left: 7%;
+        margin-left: 7%;
+    }
+    .text {
+        font-size: $font-s;
+        color: $gray;
+    }
+}
+
+.data+.data {
+    margin-left: 30px;
+}
+
+.thisWeek {
+    &>div {
+        display: inline-block;
+        color: $gray;
+        vertical-align: top;
+    }
+    img {
+        cursor: pointer;
+    }
+}
+
+.diagram {
+    width: 95%;
+}
+
+.amount {
+    flex-direction: column-reverse;
+    div {
+        margin: 5px 10px;
+        font-size: $font-xs;
+    }
+}
+
+.dateGraph {
+    border-left: solid 1px $gray;
+    border-bottom: solid 1px $gray;
+    width: 100%;
+    height: 250px;
+    padding: 0 25px;
+    align-items: flex-end;
+    .graph {
+        margin: 0 4%;
+        font-size: $font-xs;
+        position: relative;
+        top: 30px;
+    }
+    .graph::before {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 50px;
+        bottom: 30px;
+        background-color: $lightGreen;
+    }
+    .graph.nowDay::before {
+        background-color: $orange;
+    }
+}

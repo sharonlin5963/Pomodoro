@@ -1,0 +1,85 @@
+.timer {
+    margin-right: 18%;
+    margin-left: -10%;
+    .time {
+        width: 400px;
+        font-family: Fjalla One;
+        font-size: $font-xxl;
+        margin-bottom: -20px;
+    }
+}
+
+.buttons {
+    position: relative;
+    z-index: 9;
+    .e-btn {
+        @include btnSize(48px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 8px;
+    }
+    .e-btn:hover {
+        background-color: $lightGreen;
+        border: none;
+    }
+    .e-btn img {
+        width: 20px;
+    }
+    .play {
+        @include btnSize(64px);
+    }
+    .play:hover {
+        background-color: $gray;
+    }
+    .noBell img {
+        opacity: .5;
+    }
+    .noBell::before {
+        content: "";
+        position: absolute;
+        border: 1px solid rgba($gray, .5);
+        width: 30px;
+        transform: rotate(-45deg);
+    }
+}
+
+.lists .e-btn {
+    @include btnSize(24px);
+}
+
+.lists li {
+    margin: 33px 0;
+    .e-btn {
+        margin-right: 6px;
+    }
+}
+
+.nowItem {
+    .e-btn {
+        @include btnSize(40px);
+        margin-top: 5px;
+    }
+    span {
+        font-size: $font-m;
+    }
+}
+
+.tomato {
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    img {
+        width: 800px;
+    }
+}
+
+//js
+.index.drawerOpen {
+    transform: translateX(50%);
+}
+
+.tomato.drawerOpen {
+    left: 100%;
+}

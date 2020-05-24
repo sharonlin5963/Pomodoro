@@ -1,0 +1,55 @@
+* {
+    box-sizing: border-box;
+    transition: .5s all;
+}
+
+html {
+    background-color: $darkGreen;
+    color: $white;
+    overflow: hidden;
+}
+
+a {
+    text-decoration: none;
+    background-color: transparent;
+    &:hover {
+        background-color: $white;
+    }
+}
+
+input:focus {
+    outline: none;
+}
+
+
+/* 整個捲軸 */
+
+::-webkit-scrollbar {
+    width: 15px;
+}
+
+
+/* 捲軸的軌道 */
+
+
+/*捲軸尚未滑到的軌道*/
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-track-piece {
+    background: $darkGreen;
+}
+
+
+/* 滑動的區塊 */
+
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-corner {
+    background: rgba($lightGreen, .2);
+}
+
+
+/* 滑動的區塊hover */
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba($lightGreen, .4);
+}
