@@ -12,57 +12,53 @@
 
 <body>
     <div id="app">
-        <div class="header">
-            <div class="date">
-                <span>2019.07.13</span>
-                <span>星期六 13:38</span>
+        <div v-show="alert.open" class="alert">
+            <div class="content flexColumn">
+                <h3>{{alert.text}}</h3>
+                <div class="e-btn" @click="playSound()">Stop</div>
             </div>
         </div>
-        <div class="drawer" :class="(drawerOpen)?'drawerOpen':''">
+        <div class="header">
+            <div class="date">
+                <span>2020.05.26</span>
+                <span>星期二 {{nowTime}}</span>
+            </div>
+        </div>
+        <div class="drawer" :class="(drawerOpen)?'drawerOpen ':' '">
             <div class="navbar flexColumn">
-                <div :class="(nowDrawerContent==='todoList')?'nowNavbar':''" @click="toggleDrawer('todoList')">
+                <div :class="(nowDrawerContent==='todoList ')?'nowNavbar ':' '" @click="toggleDrawer('todoList ')">
                     <img src="/src/img/icon-list.svg" alt="TodoList">
                 </div>
-                <div :class="(nowDrawerContent==='analysis')?'nowNavbar':''" @click="toggleDrawer('analysis')">
+                <div :class="(nowDrawerContent==='analysis ')?'nowNavbar ':' '" @click="toggleDrawer('analysis ')">
                     <img src="/src/img/icon-analysis.svg" alt="Analysis">
                 </div>
             </div>
             <div class="content">
-                <div class="todoList" v-show="drawerContent==='todoList'">
+                <div class="todoList" v-show="drawerContent==='todoList '">
                     <div class="title">代辦清單</div>
-                    <p class="fade">已完成</p>
-                    <p>進行中</p>
+                    <p :class="(doneTodoList)?' ':'fade '" @click="toggleDoneTodoList(true)">已完成</p>
+                    <p :class="(doneTodoList)?'fade ':' '" @click="toggleDoneTodoList(false)">進行中</p>
                     <div class="addList">
                         <input type="text" placeholder="新增代辦事項">
                         <div class="e-btn">＋</div>
                     </div>
                     <hr>
-                    <div class="listItem done">
-                        <div class="e-btn">
-                            <div class="tick">✔</div>
+                    <template v-for="item in filterTodoData">
+                        <div class="listItem" :class="(doneTodoList)?'done ':' '">
+                            <div class="e-btn">
+                                <div class="tick">✔</div>
+                            </div>
+                            <span>{{item.tittle}}</span>
+                            <div class="editBtn"><img src="/src/img/icon-edit.svg" alt=""></div>
+                            <div class="editBtn"><img src="/src/img/icon-delete.svg" alt=""></div>
+                            <div class="e-timeLength">
+                                <div v-for="(circle,index) in item.times" class="circle" :key="`circle${index}`"></div>
+                            </div>
                         </div>
-                        <span>學習 Javascript</span>
-                        <div class="editBtn"><img src="/src/img/icon-edit.svg" alt=""></div>
-                        <div class="editBtn"><img src="/src/img/icon-delete.svg" alt=""></div>
-                        <div class="e-timeLength">
-                            <div v-for="circle in 5" class="circle"></div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="listItem">
-                        <div class="e-btn">
-                            <div class="tick">✔</div>
-                        </div>
-                        <span>學習 Javascript</span>
-                        <div class="editBtn"><img src="/src/img/icon-edit.svg" alt=""></div>
-                        <div class="editBtn"><img src="/src/img/icon-delete.svg" alt=""></div>
-                        <div class="e-timeLength">
-                            <div v-for="circle in 5" class="circle"></div>
-                        </div>
-                    </div>
-                    <hr>
+                        <hr>
+                    </template>
                 </div>
-                <div class="analysis" v-show="drawerContent==='analysis'">
+                <div class="analysis" v-show="drawerContent==='analysis '">
                     <div class="title">專注度分析</div>
                     <div class="flexCenter">
                         <div class="data">
@@ -89,7 +85,7 @@
                     <div class=" flexColumn">
                         <div class="thisWeek">
                             <div><img src="/src/img/icon-arrow--prev.svg" alt=""></div>
-                            <div>2020.05.17~2020.05.23</div>
+                            <div>2020.05.25 ~ 2020.05.31</div>
                             <div><img src="/src/img/icon-arrow--next.svg" alt=""></div>
                         </div>
                         <div class="diagram flexCenter">
@@ -97,13 +93,7 @@
                                 <div v-for="(n,index) in 8">{{2*index}}</div>
                             </div>
                             <div class="dateGraph flexCenter">
-                                <div class="graph flexCenter">7/7</div>
-                                <div class="graph flexCenter">7/8</div>
-                                <div class="graph flexCenter">7/9</div>
-                                <div class="graph flexCenter">7/10</div>
-                                <div class="graph flexCenter">7/11</div>
-                                <div class="graph flexCenter">7/12</div>
-                                <div class="graph flexCenter nowDay">7/13</div>
+                                <div class="graph flexCenter" :class="(index===1)?'nowDay ':' '" v-for="(n,index) in 7">5/{{25+index}}</div>
                             </div>
                         </div>
                     </div>
@@ -111,16 +101,16 @@
             </div>
         </div>
 
-        <div class="index flexCenter" :class="(drawerOpen)?'drawerOpen':''">
+        <div class="index flexCenter" :class="(drawerOpen)?'drawerOpen ':' '">
             <div class="timer">
                 <div class="time">{{nowTimer[0]}}:{{nowTimer[1]}}</div>
                 <div class="buttons flexCenter">
-                    <div class="e-btn" :class="(bell)?'':'noBell'" @click="toggleBell()">
+                    <div class="e-btn" :class="(bell.open)?' ':'noBell '" @click="toggleBell()">
                         <img src="/src/img/icon-bell.svg" alt="">
                     </div>
                     <div class="e-btn play" @click="timerControl()">
-                        <img v-show="working" :src="(time.start)?'/src/img/icon-pause--orange.svg':'/src/img/icon-play--orange.svg'" alt="">
-                        <img v-show="!working" :src="(time.start)?'/src/img/icon-pause--green.svg':'/src/img/icon-play--green.svg'" alt="">
+                        <img v-show="working" :src="(time.start)?'/src/img/icon-pause--orange.svg ':'/src/img/icon-play--orange.svg '" alt="">
+                        <img v-show="!working" :src="(time.start)?'/src/img/icon-pause--green.svg ':'/src/img/icon-play--green.svg '" alt="">
                     </div>
                     <div class="e-btn" @click="cancelTimer()">
                         <img src="/src/img/icon-cancel.svg" alt="">
@@ -128,31 +118,20 @@
                 </div>
             </div>
             <ul class="lists">
-                <li class="nowItem">
+                <li :class="(nowItem===list.tittle)?'nowItem ':' '" v-for="list in filterDoingTodoData" :key="`index_${list.tittle}`" @click="toggleItem(list.tittle)">
                     <div class="e-btn"></div>
-                    <span>構思番茄鐘UI介面</span>
+                    <span>{{list.tittle}}</span>
                     <div class="e-timeLength">
-                        <div v-for="circle in 5" class="circle"></div>
+                        <div v-for="circle in list.times" class="circle"></div>
                     </div>
-                </li>
-                <li>
-                    <div class="e-btn"></div>
-                    <span>學習 Javascript</span>
-                </li>
-                <li>
-                    <div class="e-btn"></div>
-                    <span>學習網頁切版</span>
-                </li>
-                <li>
-                    <div class="e-btn"></div>
-                    <span>設計番茄鐘 UI 介面</span>
                 </li>
             </ul>
         </div>
-        <div class="tomato " :class="(drawerOpen)?'drawerOpen':''">
-            <img :src="(working)?'/src/img/tomato--orange.svg':'/src/img/tomato--green.svg'" alt="">
+        <div class="tomato " :class="(drawerOpen)?'drawerOpen ':' '">
+            <img :src="(working)?'/src/img/tomato--orange.svg ':'/src/img/tomato--green.svg '" alt="">
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="/src/all.js"></script>
 </body>

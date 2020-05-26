@@ -1,6 +1,5 @@
 .timer {
     margin-right: 18%;
-    margin-left: -10%;
     .time {
         width: 400px;
         font-family: Fjalla One;
@@ -11,13 +10,14 @@
 
 .buttons {
     position: relative;
-    z-index: 9;
+    z-index: 8;
     .e-btn {
         @include btnSize(48px);
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 8px;
+        cursor: pointer;
     }
     .e-btn:hover {
         background-color: $lightGreen;
@@ -38,30 +38,45 @@
     .noBell::before {
         content: "";
         position: absolute;
-        border: 1px solid rgba($gray, .5);
+        background-color: rgba($gray, .5);
         width: 30px;
+        height: 2px;
         transform: rotate(-45deg);
     }
 }
 
-.lists .e-btn {
-    @include btnSize(24px);
-}
-
-.lists li {
-    margin: 33px 0;
+.lists {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    span,
     .e-btn {
+        transition: 1s;
+    }
+    .e-btn {
+        @include btnSize(24px);
         margin-right: 6px;
+    }
+    li {
+        cursor: pointer;
+        margin: 15px 0;
+    }
+    .e-timeLength {
+        display: none;
     }
 }
 
 .nowItem {
+    order: -1;
     .e-btn {
         @include btnSize(40px);
         margin-top: 5px;
     }
     span {
         font-size: $font-m;
+    }
+    .e-timeLength {
+        display: block;
     }
 }
 

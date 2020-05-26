@@ -219,11 +219,31 @@
         content: "";
         position: absolute;
         width: 20px;
-        height: 50px;
         bottom: 30px;
         background-color: $lightGreen;
     }
     .graph.nowDay::before {
         background-color: $orange;
+    }
+    .graph:nth-child(1)::before {
+        height: 70px;
+    }
+    .graph:nth-child(2)::before {
+        height: 110px;
+    }
+    .graph:nth-child(3)::before {
+        height: 40px;
+    }
+    .graph:nth-child(4)::before {
+        height: 90px;
+    }
+    .graph:nth-child(5)::before {
+        height: 150px;
+    }
+    .graph:nth-child(6)::before {
+        height: 20px;
+    }
+    .graph:nth-child(7)::before {
+        height: 70px;
     }
 }
