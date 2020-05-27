@@ -15,7 +15,41 @@
         <div v-show="alert.open" class="alert">
             <div class="content flexColumn">
                 <h3>{{alert.text}}</h3>
-                <div class="e-btn" @click="playSound()">Stop</div>
+                <div class="e-btn" @click="playSound()">OK</div>
+            </div>
+        </div>
+        <div v-show="settings" class="alert">
+            <div class="settings flexColumn">
+                <h3>工作名稱
+                    <input type="text">
+                </h3>
+                <h3>工作時間
+                    <span><label for="">
+                        <input type="text">分</label></span>
+                    <span><label for="">
+                        <input type="text">秒</label></span>
+                </h3>
+                <h3>休息時間
+                    <span><label for="">
+                        <input type="text">分</label></span>
+                    <span><label for="">
+                        <input type="text">秒</label></span>
+                </h3>
+                <h3>工作日期
+                    <span><label for="">
+                        <input type="text">年</label></span>
+                    <span><label for="">
+                        <input type="text">月</label></span>
+                    <span><label for="">
+                        <input type="text">日</label></span>
+                </h3>
+                <h3>重複次數
+                    <input type="text">次
+                </h3>
+                <h3>鈴聲
+                    <input type="radio">Crazy dinner bell
+                    <input type="radio">123
+                </h3>
             </div>
         </div>
         <div class="header">
@@ -39,8 +73,8 @@
                     <p :class="(doneTodoList)?' ':'fade '" @click="toggleDoneTodoList(true)">已完成</p>
                     <p :class="(doneTodoList)?'fade ':' '" @click="toggleDoneTodoList(false)">進行中</p>
                     <div class="addList">
-                        <input type="text" placeholder="新增代辦事項">
-                        <div class="e-btn">＋</div>
+                        <input v-model="inputValue" type="text" placeholder="新增代辦事項">
+                        <div class="e-btn" @click="addList()">＋</div>
                     </div>
                     <hr>
                     <template v-for="item in filterTodoData">

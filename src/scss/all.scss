@@ -8,9 +8,10 @@
 //element
 @import './element/button';
 @import './element/timeLength';
-@import './element/alert';
 //layout
 @import './layout/header';
 @import './layout/drawer';
 //pages
-@import './pages/index'
+@import './pages/index';
+@import './pages/settings';
+@import './pages/alert';

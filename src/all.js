@@ -7,11 +7,13 @@
                 open: false,
                 text: ''
             },
+            settings: true,
             working: true,
             drawerOpen: false,
             drawerContent: 'todoList',
             doneTodoList: false,
             nowItem: '日用品採買',
+            inputValue: '',
             bell: {
                 open: true,
                 sound: './audio/Crazy_Dinner_Bell.mp3',
@@ -94,7 +96,9 @@
                     times: 2
                 }
             ]
-
+        },
+        mounted() {
+            this.initialTimer();
         },
         methods: {
             toggleDrawer(content) {
@@ -108,6 +112,7 @@
             },
             timerControl() {
                 let { start, workTimer, breakTimer } = this.time;
+                if (this.filterDoingTodoData.length === 0) return this.alertControl(true, '清單內沒有工作喔')
                 if (start) return this.stopTimer();
 
                 if (this.working) {
@@ -129,13 +134,15 @@
                             min--;
                             if (min === -1) {
                                 this.time.times -= 1;
-                                this.playSound(this.bell.sound);
                                 this.cancelTimer();
+                                this.playSound(this.bell.sound);
                                 if (this.time.times === 0) {
-                                    this.alertControl(true, '工作完成了');
-                                    // let todoTittle = this.todoData.filter(list => { return list.tittle });
+                                    let todoTittle = Object.values(this.todoData).map(item => item.tittle);
+                                    let idx = todoTittle.indexOf(this.nowItem);
 
-                                    // console.log(todoTittle)
+                                    this.alertControl(true, '工作完成了');
+                                    this.todoData[idx].done = true;
+                                    this.toggleItem(this.filterDoingTodoData[0].tittle);
                                     return;
                                 }
 
@@ -177,6 +184,7 @@
                 this.bell.open = !this.bell.open;
             },
             toggleItem(item) {
+                if (this.time.timer) return this.alertControl(true, '請暫停當前工作才能切換新工作喔!')
                 this.nowItem = item;
                 this.initialTimer();
                 let nowTodoItem = this.todoData.filter(list => { return list.tittle === this.nowItem; });
@@ -186,11 +194,13 @@
                 this.doneTodoList = boolean;
             },
             playSound(sound) {
+                if (this.filterDoingTodoData.length === 0 || this.time.timer) return this.alertControl(false);
                 if (this.alert.open) {
                     this.bell.audio.pause();
                     this.alertControl(false);
                     return;
                 }
+
                 if (sound) {
                     this.bell.audio = new Audio(sound);
                     let audio = this.bell.audio;
@@ -206,6 +216,9 @@
             alertControl(boolean, text) {
                 this.alert.text = text
                 this.alert.open = boolean;
+            },
+            addList() {
+                console.log(this.inputValue)
             }
         },
         computed: {
@@ -226,7 +239,9 @@
                 return newTodoData;
             },
             filterDoingTodoData() {
-                return this.todoData.filter((item) => item.done === false).sort((a, b) => { return a.date - b.date; }).slice(0, 4);
+                let doingTOData = this.todoData.filter((item) => item.done === false).sort((a, b) => { return a.date - b.date; }).slice(0, 4);
+                this.nowItem = doingTOData[0].tittle;
+                return doingTOData
             },
             nowTime() {
                 return moment().format('HH:mm');
