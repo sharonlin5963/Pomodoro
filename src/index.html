@@ -12,44 +12,62 @@
 
 <body>
     <div id="app">
+        <div v-show="settings.open" class="alert">
+            <div class="settings content">
+                <div>
+                    <h3 class="tittle">工作名稱：
+                        <input v-model="settings.tittle" type="text">
+                    </h3>
+                </div>
+                <div>
+                    <h3>工作時間：
+                        <span><label for="">
+                        <input v-model="settings.workTime[0]" type="text">分</label></span>
+                        <span><label for="">
+                        <input v-model="settings.workTime[1]" type="text">秒</label></span>
+                    </h3>
+                    <h3>休息時間：
+                        <span><label for="">
+                        <input v-model="settings.breakTime[0]" type="text">分</label></span>
+                        <span><label for="">
+                        <input v-model="settings.breakTime[1]" type="text">秒</label></span>
+                    </h3>
+                </div>
+                <div>
+                    <h3 class="date">工作日期：
+                        <form>
+                            <select name="year" v-model="settings.date[0]">
+                            <option v-for="y in 5" :value="2019+y">{{2019+y}}</option>
+                        </select> 年</form>
+                        <form>
+                            <select name="mouth" v-model="settings.date[1]">
+                            <option v-for="m in 12" :value="(m<10)?'0'+m:m">{{m}}</option>
+                        </select> 月</form>
+                        <form>
+                            <select name="day" v-model="settings.date[2]">
+                            <option v-for="d in 31" :value="(d<10)?'0'+d:d">{{d}}</option>
+                    </select> 日</form>
+                    </h3>
+                    <h3>重複次數：
+                        <input v-model="settings.times" type="text">次
+                    </h3>
+                </div>
+                <form>鈴聲：
+                    <input v-model="settings.bell" id="crazyDinnerBell" type="radio" value="Crazy_Dinner_Bell" name="sounds">
+                    <label for="crazyDinnerBell">Crazy dinner bell</label>
+                    <input v-model="settings.bell" id="123" type="radio" value="123" name="sounds">
+                    <label for="123">123</label>
+                </form>
+                <div class="buttons">
+                    <div @click="settings.open=false" class="e-btn">取消</div>
+                    <div @click="addList()" class="e-btn">確定</div>
+                </div>
+            </div>
+        </div>
         <div v-show="alert.open" class="alert">
             <div class="content flexColumn">
                 <h3>{{alert.text}}</h3>
                 <div class="e-btn" @click="playSound()">OK</div>
-            </div>
-        </div>
-        <div v-show="settings" class="alert">
-            <div class="settings flexColumn">
-                <h3>工作名稱
-                    <input type="text">
-                </h3>
-                <h3>工作時間
-                    <span><label for="">
-                        <input type="text">分</label></span>
-                    <span><label for="">
-                        <input type="text">秒</label></span>
-                </h3>
-                <h3>休息時間
-                    <span><label for="">
-                        <input type="text">分</label></span>
-                    <span><label for="">
-                        <input type="text">秒</label></span>
-                </h3>
-                <h3>工作日期
-                    <span><label for="">
-                        <input type="text">年</label></span>
-                    <span><label for="">
-                        <input type="text">月</label></span>
-                    <span><label for="">
-                        <input type="text">日</label></span>
-                </h3>
-                <h3>重複次數
-                    <input type="text">次
-                </h3>
-                <h3>鈴聲
-                    <input type="radio">Crazy dinner bell
-                    <input type="radio">123
-                </h3>
             </div>
         </div>
         <div class="header">
@@ -70,21 +88,21 @@
             <div class="content">
                 <div class="todoList" v-show="drawerContent==='todoList '">
                     <div class="title">代辦清單</div>
-                    <p :class="(doneTodoList)?' ':'fade '" @click="toggleDoneTodoList(true)">已完成</p>
-                    <p :class="(doneTodoList)?'fade ':' '" @click="toggleDoneTodoList(false)">進行中</p>
+                    <p :class="(doneTodoList)?' ':'fade '" @click="doneTodoList = true">已完成</p>
+                    <p :class="(doneTodoList)?'fade ':' '" @click="doneTodoList = false">進行中</p>
                     <div class="addList">
-                        <input v-model="inputValue" type="text" placeholder="新增代辦事項">
-                        <div class="e-btn" @click="addList()">＋</div>
+                        <input v-model="settings.tittle" type="text" placeholder="新增代辦事項">
+                        <div class="e-btn" @click="settings.open = true">＋</div>
                     </div>
                     <hr>
-                    <template v-for="item in filterTodoData">
+                    <template v-for="(item,idx) in filterTodoData">
                         <div class="listItem" :class="(doneTodoList)?'done ':' '">
                             <div class="e-btn">
                                 <div class="tick">✔</div>
                             </div>
                             <span>{{item.tittle}}</span>
-                            <div class="editBtn"><img src="/src/img/icon-edit.svg" alt=""></div>
-                            <div class="editBtn"><img src="/src/img/icon-delete.svg" alt=""></div>
+                            <div @click="editList(idx)" class="editBtn"><img src="/src/img/icon-edit.svg" alt=""></div>
+                            <div @click="deleteList(idx)" class="editBtn"><img src="/src/img/icon-delete.svg" alt=""></div>
                             <div class="e-timeLength">
                                 <div v-for="(circle,index) in item.times" class="circle" :key="`circle${index}`"></div>
                             </div>
@@ -139,7 +157,7 @@
             <div class="timer">
                 <div class="time">{{nowTimer[0]}}:{{nowTimer[1]}}</div>
                 <div class="buttons flexCenter">
-                    <div class="e-btn" :class="(bell.open)?' ':'noBell '" @click="toggleBell()">
+                    <div class="e-btn" :class="(bell.open)?' ':'noBell '" @click="bell.open = !bell.open">
                         <img src="/src/img/icon-bell.svg" alt="">
                     </div>
                     <div class="e-btn play" @click="timerControl()">

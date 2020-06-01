@@ -7,7 +7,15 @@
                 open: false,
                 text: ''
             },
-            settings: true,
+            settings: {
+                open: false,
+                tittle: '',
+                workTime: [25, 0],
+                breakTime: [5, 0],
+                bell: 'Crazy_Dinner_Bell',
+                date: [2020, '06', '01'],
+                times: 5
+            },
             working: true,
             drawerOpen: false,
             drawerContent: 'todoList',
@@ -27,71 +35,64 @@
                 times: 5
             },
             todoData: [{
-                    id: 0,
                     tittle: "完成第一關番茄鐘",
                     done: false,
                     workTime: [25, 0],
                     breakTime: [5, 0],
-                    bell: "",
+                    bell: "Crazy_Dinner_Bell",
                     date: 20200615,
                     times: 5
                 },
                 {
-                    id: 1,
                     tittle: "整理房間",
                     done: false,
                     workTime: [50, 0],
                     breakTime: [10, 0],
-                    bell: "",
+                    bell: "Crazy_Dinner_Bell",
                     date: 20200528,
                     times: 4
                 },
                 {
-                    id: 2,
                     tittle: "曬衣服",
                     done: true,
                     workTime: [20, 30],
                     breakTime: [3, 0],
-                    bell: "",
+                    bell: "Crazy_Dinner_Bell",
                     date: 20200524,
                     times: 5
                 },
                 {
-                    id: 3,
                     tittle: "日用品採買",
                     done: false,
                     workTime: [25, 0],
                     breakTime: [5, 0],
-                    bell: "",
+                    bell: "Crazy_Dinner_Bell",
                     date: 20200520,
                     times: 3
                 },
                 {
-                    id: 4,
                     tittle: "運動",
                     done: true,
                     workTime: [10, 0],
                     breakTime: [0, 30],
-                    bell: "",
+                    bell: "Crazy_Dinner_Bell",
                     date: 20200511,
                     times: 5
                 },
                 {
-                    id: 5,
                     tittle: "吃番茄",
                     done: false,
                     workTime: [0, 3],
                     breakTime: [0, 2],
-                    bell: "",
+                    bell: "Crazy_Dinner_Bell",
                     date: 20200530,
-                    times: 1
+                    times: 2
                 }, {
-                    id: 6,
                     tittle: "拔蘿蔔",
                     done: false,
                     workTime: [25, 0],
                     breakTime: [5, 0],
-                    bell: "",
+                    bell: "Crazy_Dinner_Bell",
                     date: 20200601,
                     times: 2
                 }
@@ -180,9 +181,6 @@
                 if (sec < 10) time.splice(1, 1, '0' + sec);
                 return time;
             },
-            toggleBell() {
-                this.bell.open = !this.bell.open;
-            },
             toggleItem(item) {
                 if (this.time.timer) return this.alertControl(true, '請暫停當前工作才能切換新工作喔!')
                 this.nowItem = item;
@@ -190,11 +188,8 @@
                 let nowTodoItem = this.todoData.filter(list => { return list.tittle === this.nowItem; });
                 this.time.times = (nowTodoItem[0].times) * 2 - 1;
             },
-            toggleDoneTodoList(boolean) {
-                this.doneTodoList = boolean;
-            },
             playSound(sound) {
-                if (this.filterDoingTodoData.length === 0 || this.time.timer) return this.alertControl(false);
+                if (this.filterDoingTodoData.length === 0 || this.time.timer || this.settings.open) return this.alertControl(false);
                 if (this.alert.open) {
                     this.bell.audio.pause();
                     this.alertControl(false);
@@ -218,7 +213,35 @@
                 this.alert.open = boolean;
             },
             addList() {
-                console.log(this.inputValue)
+                let addListArr = [];
+                let settings = this.settings;
+                for (let [key, value] of Object.entries(settings)) {
+                    addListArr.push(value);
+                }
+                let boo = addListArr.every(item => item !== '');
+                if (!boo) return this.alertControl(true, '你有項目未填');
+
+                let newList = {...settings, done: false, };
+                let date = newList.date.join('');
+                newList.date = date;
+
+                this.todoData.push(newList);
+                this.settings = {
+                    open: false,
+                    tittle: '',
+                    workTime: [25, 0],
+                    breakTime: [5, 0],
+                    bell: 'Crazy_Dinner_Bell',
+                    date: [2020, '06', '01'],
+                    times: 5
+                };
+                console.log(newList)
+            },
+            editList(idx) {
+                console.log(this.doingTodoData, idx)
+            },
+            deleteList(item) {
+                console.log(item)
             }
         },
         computed: {
@@ -241,7 +264,7 @@
             filterDoingTodoData() {
                 let doingTOData = this.todoData.filter((item) => item.done === false).sort((a, b) => { return a.date - b.date; }).slice(0, 4);
                 this.nowItem = doingTOData[0].tittle;
-                return doingTOData
+                return doingTOData;
             },
             nowTime() {
                 return moment().format('HH:mm');

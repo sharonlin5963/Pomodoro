@@ -1,0 +1,38 @@
+.alert .settings {
+    height: 50%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    div,
+    .date {
+        display: flex;
+    }
+    h3,
+    &>form {
+        margin: 10px 20px;
+        font-size: $font-s;
+    }
+    input {
+        border: none;
+        width: 30px;
+        margin: 0 8px;
+        border-radius: 5px;
+        text-align: center;
+        padding: 0 5px;
+    }
+    select {
+        border-radius: 5px;
+    }
+    .tittle input {
+        width: 300px;
+        text-align: left;
+    }
+    .buttons {
+        display: flex;
+        justify-content: flex-end;
+    }
+    .e-btn {
+        width: 80px;
+    }
+}
