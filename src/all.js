@@ -16,6 +16,7 @@
                 date: [2020, '06', '01'],
                 times: 5
             },
+            editItem: '',
             working: true,
             drawerOpen: false,
             drawerContent: 'todoList',
@@ -225,6 +226,7 @@
                 let date = newList.date.join('');
                 newList.date = date;
 
+                if (this.editItem) this.deleteList(this.editItem);
                 this.todoData.push(newList);
                 this.settings = {
                     open: false,
@@ -235,13 +237,36 @@
                     date: [2020, '06', '01'],
                     times: 5
                 };
-                console.log(newList)
             },
-            editList(idx) {
-                console.log(this.doingTodoData, idx)
+            editList(item) {
+                let dateArr = [];
+                dateArr.push((item.date + '').slice(0, 4));
+                dateArr.push((item.date + '').slice(4, 6));
+                dateArr.push((item.date + '').slice(6, 8));
+
+                let itemSettings = {...item };
+                itemSettings.date = dateArr;
+
+                this.editItem = item;
+                this.settings = {
+                    open: true,
+                    ...itemSettings
+                };
             },
             deleteList(item) {
-                console.log(item)
+                this.todoData = this.todoData.filter(target => target !== item);
+            },
+            settingCancel() {
+                this.settings = {
+                    open: false,
+                    tittle: '',
+                    workTime: [25, 0],
+                    breakTime: [5, 0],
+                    bell: 'Crazy_Dinner_Bell',
+                    date: [2020, '06', '01'],
+                    times: 5
+                };
+                this.editing = false;
             }
         },
         computed: {

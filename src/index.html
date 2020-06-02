@@ -59,7 +59,7 @@
                     <label for="123">123</label>
                 </form>
                 <div class="buttons">
-                    <div @click="settings.open=false" class="e-btn">取消</div>
+                    <div @click="settingCancel()" class="e-btn">取消</div>
                     <div @click="addList()" class="e-btn">確定</div>
                 </div>
             </div>
@@ -95,16 +95,16 @@
                         <div class="e-btn" @click="settings.open = true">＋</div>
                     </div>
                     <hr>
-                    <template v-for="(item,idx) in filterTodoData">
+                    <template v-for="item in filterTodoData">
                         <div class="listItem" :class="(doneTodoList)?'done ':' '">
                             <div class="e-btn">
                                 <div class="tick">✔</div>
                             </div>
                             <span>{{item.tittle}}</span>
-                            <div @click="editList(idx)" class="editBtn"><img src="/src/img/icon-edit.svg" alt=""></div>
-                            <div @click="deleteList(idx)" class="editBtn"><img src="/src/img/icon-delete.svg" alt=""></div>
+                            <div @click="editList(item)" class="editBtn"><img src="/src/img/icon-edit.svg" alt=""></div>
+                            <div @click="deleteList(item)" class="editBtn"><img src="/src/img/icon-delete.svg" alt=""></div>
                             <div class="e-timeLength">
-                                <div v-for="(circle,index) in item.times" class="circle" :key="`circle${index}`"></div>
+                                <div v-for="(circle,index) in parseInt(item.times)" class="circle" :key="`circle${index}`"></div>
                             </div>
                         </div>
                         <hr>
