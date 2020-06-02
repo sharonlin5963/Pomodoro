@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pomodoro</title>
-    <link rel="stylesheet" href="/src/css/all.css">
+    <link rel="stylesheet" href="./css/all.css">
     <link href='https://fonts.googleapis.com/css?family=Noto Sans TC' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Fjalla One' rel='stylesheet'>
 </head>
@@ -79,10 +79,10 @@
         <div class="drawer" :class="(drawerOpen)?'drawerOpen ':' '">
             <div class="navbar flexColumn">
                 <div :class="(nowDrawerContent==='todoList ')?'nowNavbar ':' '" @click="toggleDrawer('todoList ')">
-                    <img src="/src/img/icon-list.svg" alt="TodoList">
+                    <img src="./img/icon-list.svg" alt="TodoList">
                 </div>
                 <div :class="(nowDrawerContent==='analysis ')?'nowNavbar ':' '" @click="toggleDrawer('analysis ')">
-                    <img src="/src/img/icon-analysis.svg" alt="Analysis">
+                    <img src="./img/icon-analysis.svg" alt="Analysis">
                 </div>
             </div>
             <div class="content">
@@ -101,8 +101,8 @@
                                 <div class="tick">✔</div>
                             </div>
                             <span>{{item.tittle}}</span>
-                            <div @click="editList(item)" class="editBtn"><img src="/src/img/icon-edit.svg" alt=""></div>
-                            <div @click="deleteList(item)" class="editBtn"><img src="/src/img/icon-delete.svg" alt=""></div>
+                            <div @click="editList(item)" class="editBtn"><img src="./img/icon-edit.svg" alt=""></div>
+                            <div @click="deleteList(item)" class="editBtn"><img src="./img/icon-delete.svg" alt=""></div>
                             <div class="e-timeLength">
                                 <div v-for="(circle,index) in parseInt(item.times)" class="circle" :key="`circle${index}`"></div>
                             </div>
@@ -136,9 +136,9 @@
                     </div>
                     <div class=" flexColumn">
                         <div class="thisWeek">
-                            <div><img src="/src/img/icon-arrow--prev.svg" alt=""></div>
+                            <div><img src="./img/icon-arrow--prev.svg" alt=""></div>
                             <div>2020.05.25 ~ 2020.05.31</div>
-                            <div><img src="/src/img/icon-arrow--next.svg" alt=""></div>
+                            <div><img src="./img/icon-arrow--next.svg" alt=""></div>
                         </div>
                         <div class="diagram flexCenter">
                             <div class="amount flexColumn">
@@ -158,14 +158,14 @@
                 <div class="time">{{nowTimer[0]}}:{{nowTimer[1]}}</div>
                 <div class="buttons flexCenter">
                     <div class="e-btn" :class="(bell.open)?' ':'noBell '" @click="bell.open = !bell.open">
-                        <img src="/src/img/icon-bell.svg" alt="">
+                        <img src="./img/icon-bell.svg" alt="">
                     </div>
                     <div class="e-btn play" @click="timerControl()">
-                        <img v-show="working" :src="(time.start)?'/src/img/icon-pause--orange.svg ':'/src/img/icon-play--orange.svg '" alt="">
-                        <img v-show="!working" :src="(time.start)?'/src/img/icon-pause--green.svg ':'/src/img/icon-play--green.svg '" alt="">
+                        <img v-show="working" :src="(time.start)?'./img/icon-pause--orange.svg ':'./img/icon-play--orange.svg '" alt="">
+                        <img v-show="!working" :src="(time.start)?'./img/icon-pause--green.svg ':'./img/icon-play--green.svg '" alt="">
                     </div>
                     <div class="e-btn" @click="cancelTimer()">
-                        <img src="/src/img/icon-cancel.svg" alt="">
+                        <img src="./img/icon-cancel.svg" alt="">
                     </div>
                 </div>
             </div>
@@ -180,12 +180,12 @@
             </ul>
         </div>
         <div class="tomato " :class="(drawerOpen)?'drawerOpen ':' '">
-            <img :src="(working)?'/src/img/tomato--orange.svg ':'/src/img/tomato--green.svg '" alt="">
+            <img :src="(working)?'./img/tomato--orange.svg ':'./img/tomato--green.svg '" alt="">
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="/src/all.js"></script>
+    <script src="./all.js"></script>
 </body>
 
 </html>

@@ -83,8 +83,8 @@
                 {
                     tittle: "吃番茄",
                     done: false,
-                    workTime: [0, 3],
-                    breakTime: [0, 2],
+                    workTime: [8, 0],
+                    breakTime: [3, 0],
                     bell: "Crazy_Dinner_Bell",
                     date: 20200530,
                     times: 2
