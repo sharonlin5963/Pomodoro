@@ -101,6 +101,7 @@
 
 .listItem {
     margin: 15px 0;
+    cursor: pointer;
     .e-btn {
         @include btnSize(24px);
         margin-right: 16px;
@@ -109,7 +110,6 @@
     .editBtn {
         vertical-align: top;
         display: inline-block;
-        cursor: pointer;
     }
     .editBtn {
         float: right;

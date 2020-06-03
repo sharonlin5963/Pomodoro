@@ -102,13 +102,13 @@
                     </div>
                     <hr>
                     <template v-for="item in filterTodoData">
-                        <div class="listItem" :class="(doneTodoList)?'done ':' '">
+                        <div @click="toggleItem(item)" class="listItem" :class="(doneTodoList)?'done ':' '">
                             <div class="e-btn">
                                 <div class="tick">✔</div>
                             </div>
-                            <span @click="toggleItem(item)">{{item.tittle}}</span>
-                            <div @click="editList(item)" class="editBtn"><img src="./img/icon-edit.svg" alt=""></div>
-                            <div @click="deleteList(item)" class="editBtn"><img src="./img/icon-delete.svg" alt=""></div>
+                            <span >{{item.tittle}}</span>
+                            <div @click.stop="editList(item)" class="editBtn"><img src="./img/icon-edit.svg" alt=""></div>
+                            <div @click.stop="deleteList(item)" class="editBtn"><img src="./img/icon-delete.svg" alt=""></div>
                             <div class="e-timeLength">
                                 <div v-for="(circle,index) in parseInt(item.times)" class="circle" :key="`circle${index}`"></div>
                             </div>
