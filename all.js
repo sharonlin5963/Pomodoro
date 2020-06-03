@@ -16,7 +16,7 @@
                 date: [2020, '06', '01'],
                 times: 5
             },
-            editItem: '',
+            editItem: null,
             working: true,
             drawerOpen: false,
             drawerContent: 'todoList',
@@ -67,7 +67,7 @@
                     done: false,
                     workTime: [25, 0],
                     breakTime: [5, 0],
-                    bell: "Crazy_Dinner_Bell",
+                    bell: "Continuous_Slide_Whistle",
                     date: 20200520,
                     times: 3
                 },
@@ -85,15 +85,15 @@
                     done: false,
                     workTime: [8, 0],
                     breakTime: [3, 0],
-                    bell: "Crazy_Dinner_Bell",
+                    bell: "Mechanical_Clock_Ring",
                     date: 20200530,
                     times: 2
                 }, {
                     tittle: "拔蘿蔔",
                     done: false,
                     workTime: [25, 0],
-                    breakTime: [5, 0],
-                    bell: "Crazy_Dinner_Bell",
+                    breakTime: [15, 0],
+                    bell: "Jingle_Bells",
                     date: 20200601,
                     times: 2
                 }
@@ -144,7 +144,7 @@
 
                                     this.alertControl(true, '工作完成了');
                                     this.todoData[idx].done = true;
-                                    this.toggleItem(this.filterDoingTodoData[0].tittle);
+                                    this.toggleItem(this.filterDoingTodoData[0]);
                                     return;
                                 }
 
@@ -183,8 +183,16 @@
                 return time;
             },
             toggleItem(item) {
-                if (this.time.timer) return this.alertControl(true, '請暫停當前工作才能切換新工作喔!')
-                this.nowItem = item;
+                if (this.drawerOpen) this.drawerOpen = false;
+                if (this.time.timer) return this.alertControl(true, '請暫停當前工作才能切換新工作喔!');
+
+                if (!this.filterDoingTodoData.some(obj => obj === item)) {
+                    this.filterDoingTodoData.unshift(item);
+                    this.filterDoingTodoData.pop();
+                }
+
+                this.nowItem = item.tittle
+                this.bell.sound = `./audio/${item.bell}.mp3`;
                 this.initialTimer();
                 let nowTodoItem = this.todoData.filter(list => { return list.tittle === this.nowItem; });
                 this.time.times = (nowTodoItem[0].times) * 2 - 1;
@@ -214,6 +222,7 @@
                 this.alert.open = boolean;
             },
             addList() {
+                if (this.bell.audio) this.bell.audio.pause();
                 let addListArr = [];
                 let settings = this.settings;
                 for (let [key, value] of Object.entries(settings)) {
@@ -226,7 +235,10 @@
                 let date = newList.date.join('');
                 newList.date = date;
 
-                if (this.editItem) this.deleteList(this.editItem);
+                if (this.editItem) {
+                    this.deleteList(this.editItem);
+                    this.editItem = null;
+                }
                 this.todoData.push(newList);
                 this.settings = {
                     open: false,
@@ -257,6 +269,7 @@
                 this.todoData = this.todoData.filter(target => target !== item);
             },
             settingCancel() {
+                if (this.bell.audio) this.bell.audio.pause();
                 this.settings = {
                     open: false,
                     tittle: '',
@@ -266,7 +279,19 @@
                     date: [2020, '06', '01'],
                     times: 5
                 };
-                this.editing = false;
+                this.editItem = null;
+            },
+            testSound(val) {
+                if (this.bell.audio) this.bell.audio.pause();
+                let sound = `./audio/${val}.mp3`
+                if (sound) {
+                    this.bell.audio = new Audio(sound);
+                    let audio = this.bell.audio;
+
+                    audio.muted = (this.bell.open) ? false : true;
+                    audio.currentTime = 0;
+                    audio.play();
+                }
             }
         },
         computed: {

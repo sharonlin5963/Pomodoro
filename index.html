@@ -53,10 +53,16 @@
                     </h3>
                 </div>
                 <form>鈴聲：
-                    <input v-model="settings.bell" id="crazyDinnerBell" type="radio" value="Crazy_Dinner_Bell" name="sounds">
+                    <br>
+                    <input @click="testSound('Crazy_Dinner_Bell')" v-model="settings.bell" id="crazyDinnerBell" type="radio" value="Crazy_Dinner_Bell" name="sounds">
                     <label for="crazyDinnerBell">Crazy dinner bell</label>
-                    <input v-model="settings.bell" id="123" type="radio" value="123" name="sounds">
-                    <label for="123">123</label>
+                    <input @click="testSound('Continuous_Slide_Whistle')" v-model="settings.bell" id="ContinuousSlideWhistle" type="radio" value="Continuous_Slide_Whistle" name="sounds">
+                    <label for="ContinuousSlideWhistle">Continuous slide whistle</label>
+                    <br>
+                    <input @click="testSound('Mechanical_Clock_Ring')" v-model="settings.bell" id="MechanicalClockRing" type="radio" value="Mechanical_Clock_Ring" name="sounds">
+                    <label for="MechanicalClockRing">Mechanical clock ring</label>
+                    <input @click="testSound('Jingle_Bells')" v-model="settings.bell" id="JingleBells" type="radio" value="Jingle_Bells" name="sounds">
+                    <label for="JingleBells">Jingle bells</label>
                 </form>
                 <div class="buttons">
                     <div @click="settingCancel()" class="e-btn">取消</div>
@@ -100,7 +106,7 @@
                             <div class="e-btn">
                                 <div class="tick">✔</div>
                             </div>
-                            <span>{{item.tittle}}</span>
+                            <span @click="toggleItem(item)">{{item.tittle}}</span>
                             <div @click="editList(item)" class="editBtn"><img src="./img/icon-edit.svg" alt=""></div>
                             <div @click="deleteList(item)" class="editBtn"><img src="./img/icon-delete.svg" alt=""></div>
                             <div class="e-timeLength">
@@ -170,7 +176,7 @@
                 </div>
             </div>
             <ul class="lists">
-                <li :class="(nowItem===list.tittle)?'nowItem ':' '" v-for="list in filterDoingTodoData" :key="`index_${list.tittle}`" @click="toggleItem(list.tittle)">
+                <li :class="(nowItem===list.tittle)?'nowItem ':' '" v-for="(list,idx) in filterDoingTodoData" :key="`index_${list.tittle}`" @click="toggleItem(list)">
                     <div class="e-btn"></div>
                     <span>{{list.tittle}}</span>
                     <div class="e-timeLength">
